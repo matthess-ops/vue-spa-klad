@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/HomeView.vue'
 import SignIn from '../views/SignIn.vue'
 import Book from '../views/BookView.vue'
-// import store from '../store'
+import Crud from '../views/CrudView.vue'
 
 
 
@@ -30,6 +30,13 @@ const routes = [
     path: '/book',
     name: 'Book',
     component: Book,
+    meta: {
+      requiresAuth: true
+  }},
+  {
+    path: '/crud',
+    name: 'Crud',
+    component: Crud,
     meta: {
       requiresAuth: true
   }

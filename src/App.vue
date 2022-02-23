@@ -10,6 +10,8 @@
         <router-link to="/account">{{ user.name }}</router-link> |
         <a href="#" @click.prevent="signOut">Sign out</a>|
         <router-link to="/book">Book</router-link> |
+                <router-link to="/crud">Crud</router-link> |
+
 
       </template>
     </div>
