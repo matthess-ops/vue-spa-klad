@@ -1,30 +1,77 @@
 <template>
   <div class="Book">
-    <h1>This is an book page</h1>
+
+    <h3>an image</h3>
+        <img :src="getImage()" class="card-img-top" alt="" />
+
+
+  <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Laravel Vue JS File Upload Demo</div>
+                    <div class="card-body">
+                        <div v-if="success != ''" class="alert alert-success">
+                            {{success}}
+                        </div>
+                        <form @submit="formSubmit" enctype="multipart/form-data">
+                            <input type="file" class="form-control" v-on:change="onChange">
+                            <button class="btn btn-primary btn-block">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- <h1>This is an book page</h1>
         {{this.$store.state.auth.authenticated}}
           <bookable-list-item name="OUTPUT NAME WERKT"  :title=title :testarray = testarray />
-          
+           -->
           <!-- </bookable-list-item> -->
 
   </div>
 </template>
 
 <script>
-import BookableListItem from "../components/BookableListItem.vue";
 
 export default {
-  components: {
-    BookableListItem
-  },
-  data() {
-    return {
-      title: 'OUTPUT TITLE WERKT',
-      testarray: {
-          beh:"bla",
-          kak:"kek",
-      }
-    }
-  },
+data() {
+            return {
+                name: '',
+                file: '',
+                success: ''
+            };
+        },
+        methods: {
+             getImage(){
+                          return  'http://localhost:8000/storage/uploads/1646130572_stratobestelling.jpg';
+                      },
+            onChange(e) {
+                this.file = e.target.files[0];
+            },
+            formSubmit(e) {
+                e.preventDefault();
+                let existingObj = this;
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+                let data = new FormData();
+                data.append('file', this.file);
+                axios.post('api/upload', data, config)
+                    .then(function (res) {
+                        existingObj.success = res.data.success;
+                    })
+                    .catch(function (err) {
+                        existingObj.output = err;
+                    });
+            }
+        }
  
 };
 </script>
