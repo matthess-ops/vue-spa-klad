@@ -4,6 +4,7 @@ import Home from '../views/HomeView.vue'
 import SignIn from '../views/SignIn.vue'
 import Book from '../views/BookView.vue'
 import Clients from '../views/ClientsView.vue'
+import Products from '../views/ProductsView.vue'
 
 
 
@@ -37,6 +38,14 @@ const routes = [
     path: '/clients',
     name: 'Clients',
     component: Clients,
+    meta: {
+      requiresAuth: true
+  }
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: Products,
     meta: {
       requiresAuth: true
   }

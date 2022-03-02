@@ -11,6 +11,7 @@
         <a href="#" @click.prevent="signOut">Sign out</a>|
         <router-link to="/book">Book</router-link> |
                 <router-link to="/clients">Clients</router-link> |
+                <router-link to="/products">Products</router-link> |
 
 
       </template>

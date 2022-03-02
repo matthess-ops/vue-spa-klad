@@ -21,9 +21,9 @@
               :class="{'is-invalid' : errors.hasOwnProperty('firstName')}"
             />
               <div class="invalid-feedback">
-              <div v-for="error in errors.firstName" >
+              <!-- <div v-for="error in errors.firstName" >
             {{ error }}   
-            </div>
+            </div> -->
     </div>
           </div>
           <br />
