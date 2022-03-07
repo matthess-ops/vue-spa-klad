@@ -86,8 +86,8 @@ import use App\Product;
 import use App\Http\Resources\ProductIndexResource;
 
 
-        return BookableIndexResource::collection(
-            Bookable::all()
+        return ProductIndexResource::collection(
+            Product::all()
         );
 12: create ProductIndexResource
 
@@ -99,6 +99,6 @@ php artisan make:resource ProductIndexResource
             'product_amount' => $this->product_amount
         ]; 
 
-13:
+13: see productview.vue for rest
 
 

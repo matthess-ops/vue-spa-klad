@@ -5,6 +5,7 @@ export default {
 
   state: {
     authenticated: false,
+    isAdmin:false,
     user: null
   },
 
@@ -16,6 +17,9 @@ export default {
     user (state) {
       return state.user
     },
+    isAdmin (state) {
+      return state.isAdmin
+    },
   },
 
   mutations: {
@@ -25,10 +29,32 @@ export default {
 
     SET_USER (state, value) {
       state.user = value
+    },
+    SET_ISADMIN (state, value) {
+      state.isAdmin = value
     }
   },
 
   actions: {
+
+    checkIfAdmin({ commit, state,dispatch }){
+      console.log("?????")
+      console.log(state.user.is_admin)
+      if(state.user.is_admin == true){
+        commit('SET_ISADMIN', true)
+
+      }
+    
+    },
+
+
+    // checkAdmin({ commit }){
+    //   if(user.is_admin ==true){
+    //     commit('SET_ISADMIN', true)
+
+    //   }
+    // },
+
     async signIn ({ dispatch }, credentials) {
       await axios.get('/sanctum/csrf-cookie')
       await axios.post('/login', credentials)
@@ -42,13 +68,21 @@ export default {
       return dispatch('me')
     },
 
-    me ({ commit }) {
+    me ({ commit,dispatch}) {
       return axios.get('/api/user').then((response) => {
         commit('SET_AUTHENTICATED', true)
         commit('SET_USER', response.data)
+        dispatch('checkIfAdmin')
+        // if(response.data.is_admin == true){
+        //   commit('SET_ISADMIN', true)
+
+        // }
+     
       }).catch(() => {
         commit('SET_AUTHENTICATED', false)
         commit('SET_USER', null)
+        commit('SET_ISADMIN', false)
+
       })
     }
   }

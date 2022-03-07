@@ -13,7 +13,12 @@
                 <router-link to="/clients">Clients</router-link> |
                 <router-link to="/products">Products</router-link> |
 
+        <template v-if="isAdmin">
 
+          <router-link to="/admin">Admin</router-link> |
+      </template>
+
+     
       </template>
     </div>
     <router-view/>
@@ -28,6 +33,8 @@
       ...mapGetters({
         authenticated: 'auth/authenticated',
         user: 'auth/user',
+        isAdmin: 'auth/isAdmin'
+
       })
     },
 

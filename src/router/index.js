@@ -5,6 +5,7 @@ import SignIn from '../views/SignIn.vue'
 import Book from '../views/BookView.vue'
 import Clients from '../views/ClientsView.vue'
 import Products from '../views/ProductsView.vue'
+import Admin from '../views/AdminView.vue'
 
 
 
@@ -17,7 +18,7 @@ const routes = [
     component: Home,
     meta: {
       requiresAuth: false
-  }
+    }
   },
   {
     path: '/signin',
@@ -25,7 +26,7 @@ const routes = [
     component: SignIn,
     meta: {
       requiresAuth: false
-  }
+    }
   },
   {
     path: '/book',
@@ -33,14 +34,15 @@ const routes = [
     component: Book,
     meta: {
       requiresAuth: true
-  }},
+    }
+  },
   {
     path: '/clients',
     name: 'Clients',
     component: Clients,
     meta: {
       requiresAuth: true
-  }
+    }
   },
   {
     path: '/products',
@@ -48,7 +50,16 @@ const routes = [
     component: Products,
     meta: {
       requiresAuth: true
-  }
+    }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   }
 ]
 
@@ -59,15 +70,27 @@ const router = new VueRouter({
 })
 
 
-router.beforeEach((to, from, next)=>{
-  console.log("need auth ",to.meta.requiresAuth)
-  console.log(to)
-  if(to.meta.requiresAuth == true && router.app.$store.state.auth.authenticated == false){
-    console.log("move to signin")
-      next({ name: 'SignIn' })
+router.beforeEach((to, from, next) => {
 
-  }else{
+  if (to.meta.requiresAuth == true && router.app.$store.state.auth.authenticated == false) {
+    console.log("move to signin")
+    next({ name: 'SignIn' })
+    console.log("-----------")
+    console.log(router.app.$store.state.auth.isAdmin)
+
+  } else {
     next()
+  }
+
+  if (to.meta.requiresAuth == true && 
+    to.meta.requiresAdmin == true && 
+    router.app.$store.state.auth.authenticated == true && 
+    router.app.$store.state.auth.isAdmin == false) {
+      next({ name: 'Book' })
+
+  } else {
+    next()
+
   }
 
 })
@@ -84,16 +107,16 @@ router.beforeEach((to, from, next)=>{
 //     // }
 //   }
 
-  // console.log("requied auth",to.meta)
-  // if(to.path !=='/signin'){
-  //   if(to.meta.requiresAuth &&router.app.$store.state.auth.authenticated == true){
-  //     next()
-  //   }else{
-  //     next("SignIn")
-  //   }
-  // }
+// console.log("requied auth",to.meta)
+// if(to.path !=='/signin'){
+//   if(to.meta.requiresAuth &&router.app.$store.state.auth.authenticated == true){
+//     next()
+//   }else{
+//     next("SignIn")
+//   }
+// }
 
- 
+
 // })
 
 export default router
